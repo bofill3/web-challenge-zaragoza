@@ -1,7 +1,7 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
-
+const verificarJWT = require('../middleware/auth');
 const JWT_SECRET = process.env.JWT_SECRET || 'clave_defecto';
 
 // Usuario hardcoded para demo
@@ -29,6 +29,18 @@ router.post('/login', (req, res) => {
 router.get('/logout', (req, res) => {
   res.clearCookie('token');
   res.redirect('/');
+});
+
+
+router.get('/auth-test',(req, res) => {
+  const token = req.cookies.token;
+
+  if (!token) {
+    return res.status(401).json({ error: 'No se ha proporcionado un token' });
+  }
+
+  // Mostrar contenido del token ( no hace falta verificarlo aquí, ya que el middleware lo hace)
+  // Continuar por aquí, ver la forma de hacer vulnerable el token
 });
 
 module.exports = router;
