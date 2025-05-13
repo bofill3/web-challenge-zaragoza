@@ -3,6 +3,7 @@ const express = require("express");
 const fs = require("fs");
 const path = require("path");
 const router = express.Router();
+const { exec } = require("child_process");
 
 const REPORTS_FILE = path.join(__dirname, "../data/reports.json");
 
@@ -38,6 +39,15 @@ router.post("/report", (req, res) => {
   // Guardar en archivo
   reports.push(newReport);
   fs.writeFileSync(REPORTS_FILE, JSON.stringify(reports, null, 2));
+
+  // Ejecutar el bot
+  exec("node bot/bot.js", (err, stdout, stderr) => {
+    if (err) {
+      console.error("[ERROR BOT]:", err);
+      return;
+    }
+    console.log("[BOT OUTPUT]:", stdout);
+  });
 
   res.redirect("/thanks");
 });

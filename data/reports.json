@@ -1,3 +1,9 @@
 [
-  
+  {
+    "id": 1,
+    "title": "<script>alert(\"Bofill bujarra\")</script>",
+    "description": "<script>alert(\"Bofill bujarra\")</script>",
+    "url": "",
+    "date": "2025-05-13"
+  }
 ]
