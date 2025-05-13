@@ -1,0 +1,25 @@
+<h2><i class="fas fa-clipboard-list"></i> Revisión de incidencias</h2>
+
+<% if (reports.length === 0) { %>
+  <div class="card">
+    <p>No hay incidencias registradas en el sistema.</p>
+  </div>
+<% } else { %>
+  <ul class="reports-list">
+    <% reports.forEach(report => { %>
+      <li class="report-item">
+        <div class="report-title"><i class="fas fa-exclamation-circle"></i> <%= report.title %></div>
+        <div class="report-description"><%- report.description %></div>
+        <% if (report.url) { %>
+          <div class="report-url">
+            <i class="fas fa-link"></i> <a href="<%= report.url %>" target="_blank">Ver enlace adjunto</a>
+          </div>
+        <% } %>
+      </li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<div style="margin-top: 2rem;">
+  <a href="/" class="btn"><i class="fas fa-arrow-left"></i> Volver</a>
+</div>

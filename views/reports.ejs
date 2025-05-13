@@ -1,0 +1,34 @@
+<div class="card">
+  <h2>Reportar una incidencia</h2>
+  <p>Completa el siguiente formulario para informar sobre un problema en la ciudad. Cuanta más información proporciones, más fácil será para el equipo municipal resolver la incidencia.</p>
+
+  <form action="/report" method="POST">
+    <div class="form-group">
+      <label for="title"><i class="fas fa-heading"></i> Título:</label>
+      <input type="text" id="title" name="title" placeholder="Ej: Farola sin luz en Calle Delicias" required>
+    </div>
+
+    <div class="form-group">
+      <label for="description"><i class="fas fa-align-left"></i> Descripción:</label>
+      <textarea id="description" name="description" rows="5" placeholder="Describe el problema con el mayor detalle posible..." required></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="url"><i class="fas fa-link"></i> Enlace relacionado (opcional):</label>
+      <input type="url" id="url" name="url" placeholder="https://ejemplo.com/imagen.jpg">
+      <small>Puedes incluir un enlace a una imagen o documento que muestre la incidencia.</small>
+    </div>
+
+    <button type="submit" class="btn"><i class="fas fa-paper-plane"></i> Enviar reporte</button>
+  </form>
+</div>
+
+<div class="card">
+  <h3 class="card-title">Consejos para un buen reporte</h3>
+  <ul>
+    <li>Sé específico sobre la ubicación del problema</li>
+    <li>Incluye detalles como fecha y hora en que observaste la incidencia</li>
+    <li>Describe si el problema supone un riesgo para la seguridad</li>
+    <li>Añade un enlace a una imagen si es posible</li>
+  </ul>
+</div>

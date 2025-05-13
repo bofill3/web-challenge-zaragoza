@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> | SmartAdmin Zaragoza</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <div class="logo">Smart<span>Admin</span> Zaragoza</div>
+      <nav>
+        <a href="/"><i class="fas fa-home"></i> Inicio</a>
+        <a href="/report"><i class="fas fa-exclamation-circle"></i> Reportar incidencia</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <%- body %>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-links">
+        <a href="#">Política de privacidad</a>
+        <a href="#">Términos de uso</a>
+        <a href="#">Contacto</a>
+      </div>
+      <p>© 2025 Ayuntamiento de Zaragoza - Plataforma SmartCity</p>
+    </div>
+  </footer>
+
+  <script>
+    // Añadir clase activa al enlace de navegación actual
+    document.addEventListener('DOMContentLoaded', function() {
+      const currentLocation = window.location.pathname;
+      const navLinks = document.querySelectorAll('nav a');
+      
+      navLinks.forEach(link => {
+        const linkPath = link.getAttribute('href');
+        if (currentLocation === linkPath) {
+          link.style.color = '#ffc107';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
