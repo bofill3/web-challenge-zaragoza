@@ -1,33 +1,50 @@
 // routes/index.js
-const express = require("express")
-const router = express.Router()
+const express = require("express");
+const fs = require("fs");
+const path = require("path");
+const router = express.Router();
+
+const REPORTS_FILE = path.join(__dirname, "../data/reports.json");
 
 // Página de inicio
 router.get("/", (req, res) => {
-  res.render("index", { title: "Inicio | SmartAdmin Zaragoza" })
-})
+  res.render("index", { title: "Inicio | SmartCity Zaragoza" });
+});
 
 // Página para reportar incidencias - GET
 router.get("/report", (req, res) => {
-  res.render("reports", { title: "Reportar Incidencia | SmartAdmin Zaragoza" })
-})
+  res.render("reports", { title: "Reportar Incidencia | SmartCity Zaragoza" });
+});
 
 // Procesar el formulario de reporte - POST
 router.post("/report", (req, res) => {
-  // Obtener los datos del formulario
-  const { title, description, url } = req.body
+  const { title, description, url } = req.body;
 
-  // Aquí normalmente guardarías los datos en una base de datos
-  // Por ahora, solo simulamos que se ha guardado correctamente
-  console.log("Nueva incidencia reportada:", { title, description, url })
+  // Cargar incidencias previas
+  let reports = [];
+  if (fs.existsSync(REPORTS_FILE)) {
+    reports = JSON.parse(fs.readFileSync(REPORTS_FILE));
+  }
 
-  // Redirigir a la página de agradecimiento
-  res.redirect("/thanks")
-})
+  // Crear nueva incidencia
+  const newReport = {
+    id: reports.length + 1,
+    title,
+    description, // se mantiene sin sanitizar para permitir XSS
+    url,
+    date: new Date().toISOString().split("T")[0],
+  };
 
-// Página de agradecimiento después de enviar un reporte
+  // Guardar en archivo
+  reports.push(newReport);
+  fs.writeFileSync(REPORTS_FILE, JSON.stringify(reports, null, 2));
+
+  res.redirect("/thanks");
+});
+
+// Página de agradecimiento
 router.get("/thanks", (req, res) => {
-  res.render("thanks", { title: "Gracias | SmartAdmin Zaragoza" })
-})
+  res.render("thanks", { title: "Gracias | SmartAdmin Zaragoza" });
+});
 
-module.exports = router
+module.exports = router;

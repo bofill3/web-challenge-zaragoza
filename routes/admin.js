@@ -3,6 +3,7 @@ const express = require("express")
 const router = express.Router()
 const { exec } = require("child_process")
 const url = require("url")
+const verificarJWT = require('../middleware/auth');
 
 // Simulación de base de datos de reportes
 const reports = [
@@ -29,37 +30,32 @@ const reports = [
   },
 ]
 
-// Middleware para verificar autenticación (simulado)
-const isAuthenticated = (req, res, next) => {
-  // En una aplicación real, verificarías si el usuario está autenticado
-  // Por ahora, permitimos el acceso a todos
-  next()
-}
+
 
 // Panel de administración - Ver todas las incidencias
-router.get("/", isAuthenticated, (req, res) => {
+router.get("/", verificarJWT, (req, res) => {
   res.render("admin_logs", {
-    title: "Panel de Administración | SmartAdmin Zaragoza",
+    title: "Panel de Administración | SmartCity Zaragoza",
     reports: reports,
   })
 })
 
 // Página para validar URLs - GET
-router.get("/validate", isAuthenticated, (req, res) => {
+router.get("/validate", verificarJWT, (req, res) => {
   res.render("validate", {
-    title: "Validar URL | SmartAdmin Zaragoza",
+    title: "Validar URL | SmartCity Zaragoza",
     result: null,
   })
 })
 
 // Procesar la validación de URL - POST
-router.post("/validate", isAuthenticated, (req, res) => {
+router.post("/validate", verificarJWT, (req, res) => {
   const { url: urlToValidate } = req.body
 
   // Validación básica de la URL
   if (!urlToValidate || !urlToValidate.startsWith("http")) {
     return res.render("validate", {
-      title: "Validar URL | SmartAdmin Zaragoza",
+      title: "Validar URL | SmartCity Zaragoza",
       result: "Error: La URL debe comenzar con http:// o https://",
     })
   }
@@ -79,13 +75,13 @@ Server: Apache/2.4.41 (simulado)
   `
 
   res.render("validate", {
-    title: "Validar URL | SmartAdmin Zaragoza",
+    title: "Validar URL | SmartCity Zaragoza",
     result: result,
   })
 })
 
 // Ruta para ver detalles de una incidencia específica
-router.get("/report/:id", isAuthenticated, (req, res) => {
+router.get("/report/:id", verificarJWT, (req, res) => {
   const reportId = Number.parseInt(req.params.id)
   const report = reports.find((r) => r.id === reportId)
 
@@ -94,13 +90,13 @@ router.get("/report/:id", isAuthenticated, (req, res) => {
   }
 
   res.render("report_detail", {
-    title: `Incidencia #${reportId} | SmartAdmin Zaragoza`,
+    title: `Incidencia #${reportId} | SmartCity Zaragoza`,
     report: report,
   })
 })
 
 // Ruta para cambiar el estado de una incidencia (simulado)
-router.post("/report/:id/status", isAuthenticated, (req, res) => {
+router.post("/report/:id/status", verificarJWT, (req, res) => {
   const reportId = Number.parseInt(req.params.id)
   const { status } = req.body
 
