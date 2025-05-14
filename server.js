@@ -6,6 +6,7 @@ const bodyParser = require("body-parser")
 const expressLayouts = require("express-ejs-layouts")
 const logger = require("morgan")
 
+
 const app = express()
 const PORT = process.env.PORT || 3000
 
@@ -24,14 +25,14 @@ app.use(cookieParser())
 
 // Rutas
 const indexRoutes = require("./routes/index")
-const adminRoutes = require("./routes/admin")
+const adminRoutes = require("./routes/logs")
 const authRoutes = require('./routes/auth');
 const internalRoutes = require("./routes/internal");
 
 app.use('/', authRoutes);
 app.use("/", indexRoutes)
-app.use("/admin", adminRoutes)
-app.use("/internal", internalRoutes);
+app.use("/logs", adminRoutes)
+app.use("/", internalRoutes);
 
 // Manejo de errores 404
 app.use((req, res, next) => {

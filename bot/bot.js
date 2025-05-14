@@ -1,34 +1,35 @@
 const puppeteer = require('puppeteer');
 
-(async () => {
+async function launchBot() {
   const browser = await puppeteer.launch({
-    headless: true, // pon false si quieres depurar
+    headless: true,
     args: ['--no-sandbox']
   });
 
   const page = await browser.newPage();
 
-  // Reemplaza esto con un JWT real con role: admin
-  const jwtToken = 'REEMPLAZA_CON_TOKEN_JWT';
+  try {
+    console.log('[BOT] Visitando /login...');
+    await page.goto('http://localhost:3000/login', {
+      waitUntil: 'networkidle2',
+      timeout: 15000
+    });
 
-  // Establecer cookie JWT del admin
-  await page.setCookie({
-    name: 'token',
-    value: jwtToken,
-    domain: 'localhost',
-    path: '/',
-    httpOnly: false
-  });
+    await page.type('input[name="username"]', 'aaron');
+    await page.type('input[name="password"]', 'YWFyb24mc2FyYTwz');
+    await page.click('button[type="submit"]');
 
-  console.log('[BOT] Visitando /admin...');
-  await page.goto('http://localhost:3000/admin', {
-    waitUntil: 'networkidle2',
-    timeout: 15000
-  });
+    await page.waitForNavigation({ waitUntil: 'networkidle2' });
 
-  console.log('[BOT] Esperando 5 segundos para que se ejecute el XSS...');
-  await new Promise(resolve => setTimeout(resolve, 5000));
 
-  await browser.close();
-  console.log('[BOT] Hecho.');
-})();
+    await new Promise(resolve => setTimeout(resolve, 5000));
+
+    console.log('[BOT] Incidencia Registrada.');
+  } catch (error) {
+    console.error('[BOT] Error:', error.message);
+  } finally {
+    await browser.close();
+  }
+}
+
+module.exports = { launchBot };

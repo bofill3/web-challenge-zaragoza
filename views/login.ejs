@@ -1,9 +1,33 @@
-<h1>Iniciar sesión</h1>
-<form method="POST" action="/login">
-  <input type="text" name="username" placeholder="Usuario" required>
-  <input type="password" name="password" placeholder="Contraseña" required>
-  <button type="submit">Entrar</button>
+<div class="login-header">
+  <i class="fas fa-user-shield"></i>
+  <h1>Iniciar sesión</h1>
+  <p>Accede a la plataforma de gestión de incidencias</p>
+</div>
+
+<form method="POST" action="/login" class="login-form">
+  <div class="form-group">
+    <label for="username"><i class="fas fa-user"></i> Usuario</label>
+    <input type="text" id="username" name="username" placeholder="Introduce tu nombre de usuario" required>
+  </div>
+  
+  <div class="form-group">
+    <label for="password"><i class="fas fa-lock"></i> Contraseña</label>
+    <input type="password" id="password" name="password" placeholder="Introduce tu contraseña" required>
+  </div>
+  
+  <div class="form-actions">
+    <button type="submit" class="btn btn-login"><i class="fas fa-sign-in-alt"></i> Entrar</button>
+  </div>
+  
+  <div class="form-options">
+    <a href="#" class="forgot-password">¿Olvidaste tu contraseña?</a>
+  </div>
 </form>
+
 <% if (error) { %>
-  <p style="color:red;"><%= error %></p>
+  <div class="error-message">
+    <i class="fas fa-exclamation-circle"></i>
+    <%= error %>
+  </div>
 <% } %>
+

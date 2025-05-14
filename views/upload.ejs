@@ -1,0 +1,23 @@
+<div class="card">
+  <h2><i class="fas fa-image"></i> Subir imagen desde URL</h2>
+  <p>Introduce la URL de una imagen remota para añadirla a la galería pública. La imagen será descargada y almacenada en el servidor.</p>
+
+  <form method="POST" action="/upload" class="form-group">
+    <div class="form-group">
+      <label for="url"><i class="fas fa-link"></i> URL de la imagen:</label>
+      <input type="url" name="url" id="url" placeholder="https://ejemplo.com/imagen.jpg" required>
+    </div>
+    <button type="submit" class="btn"><i class="fas fa-upload"></i> Subir imagen</button>
+  </form>
+
+  <% if (result) { %>
+    <div style="margin-top: 2rem;">
+      <h3><i class="fas fa-check-circle"></i> Resultado:</h3>
+      <%- result %>
+    </div>
+  <% } %>
+</div>
+
+<div style="margin-top: 2rem;">
+  <a href="/dashboard" class="btn"><i class="fas fa-arrow-left"></i> Volver al panel</a>
+</div>

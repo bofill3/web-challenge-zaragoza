@@ -21,8 +21,8 @@ function verificarAdminJWT(req, res, next) {
   try {
     const decoded = jwt.decode(token)
     req.user = decoded.username;
-    if (decoded.role !== 'admin') {
-      return res.status(403).json({ error: 'Acceso denegado' });
+    if (decoded.role !== 'admin' || !decoded.role) {
+      return res.status(403).json({ error: 'Acceso denegado, necesario el rol de administrador'});
     }
     next();
   } catch (err) {
@@ -30,4 +30,4 @@ function verificarAdminJWT(req, res, next) {
   }
 }
 
-module.exports = verificarJWT, verificarAdminJWT;
+module.exports = {verificarJWT, verificarAdminJWT};
