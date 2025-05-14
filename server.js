@@ -26,11 +26,12 @@ app.use(cookieParser())
 const indexRoutes = require("./routes/index")
 const adminRoutes = require("./routes/admin")
 const authRoutes = require('./routes/auth');
-
+const internalRoutes = require("./routes/internal");
 
 app.use('/', authRoutes);
 app.use("/", indexRoutes)
 app.use("/admin", adminRoutes)
+app.use("/internal", internalRoutes);
 
 // Manejo de errores 404
 app.use((req, res, next) => {

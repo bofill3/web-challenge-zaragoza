@@ -57,4 +57,32 @@ router.get("/thanks", (req, res) => {
   res.render("thanks", { title: "Gracias | SmartAdmin Zaragoza" });
 });
 
+// GET /gallery
+router.get("/gallery", (req, res) => {
+  const galleryDir = path.join(__dirname, "../data/gallery");
+  const files = fs.existsSync(galleryDir) ? fs.readdirSync(galleryDir) : [];
+
+  const images = files.map(filename => ({
+    name: filename,
+    path: "/dashboard/gallery/" + filename,
+  }));
+
+  res.render("gallery", {
+    title: "Galería de imágenes | SmartCity Zaragoza",
+    images,
+  });
+});
+
+// GET /gallery/:filename - descarga de imagen
+router.get("/gallery/:filename", (req, res) => {
+  const filePath = path.join(__dirname, "../data/gallery", req.params.filename);
+  if (fs.existsSync(filePath)) {
+    res.setHeader("Content-Disposition", `attachment; filename=${req.params.filename}`);
+    res.setHeader("Content-Type", "text/plain");
+    res.sendFile(filePath);
+  } else {
+    res.status(404).send("Imagen no encontrada");
+  }
+});
+
 module.exports = router;

@@ -1,0 +1,261 @@
+<div>
+  <style>
+
+    .btn {
+      display: inline-block;
+      background-color: var(--color-primary);
+      color: var(--color-white);
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition);
+      text-align: center;
+    }
+
+    .btn:hover {
+      background-color: var(--color-primary-light);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background-color: var(--color-secondary);
+      color: var(--color-dark);
+    }
+
+    .btn-secondary:hover {
+      background-color: #e6ac00;
+    }
+
+    .btn-small {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.9rem;
+    }
+
+
+    /* Dashboard */
+    .dashboard-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background-color: var(--color-white);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      text-align: center;
+      transition: var(--transition);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .stat-icon {
+      font-size: 2.5rem;
+      color: var(--color-primary);
+      margin-bottom: 1rem;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--color-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      color: var(--color-dark);
+      font-size: 0.9rem;
+    }
+
+    /* Table styles */
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+    }
+
+    .admin-table th {
+      background-color: var(--color-primary);
+      color: var(--color-white);
+      padding: 0.8rem;
+      text-align: left;
+    }
+
+    .admin-table td {
+      padding: 0.8rem;
+      border-bottom: 1px solid var(--color-gray);
+    }
+
+    .admin-table tr:hover {
+      background-color: rgba(0, 51, 102, 0.05);
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 0.3rem 0.6rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .status-pending {
+      background-color: #fff3cd;
+      color: #856404;
+    }
+
+    .status-in-progress {
+      background-color: #cce5ff;
+      color: #004085;
+    }
+
+    .status-resolved {
+      background-color: #d4edda;
+      color: #155724;
+    }
+
+    .action-buttons {
+      margin-top: 2rem;
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      header {
+        padding: 1rem;
+      }
+
+      main {
+        padding: 1.5rem;
+        margin: 1rem;
+      }
+
+      .dashboard-stats {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      .admin-table {
+        display: block;
+        overflow-x: auto;
+      }
+    }
+  </style>
+
+
+
+ 
+    <h1>Panel de Control</h1>
+
+    <div class="dashboard-stats">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-clipboard-check"></i>
+        </div>
+        <div class="stat-value"><%= stats.total %></div>
+        <div class="stat-label">Incidencias Totales</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-clock"></i>
+        </div>
+        <div class="stat-value"><%= stats.pending %></div>
+        <div class="stat-label">Pendientes</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-spinner"></i>
+        </div>
+        <div class="stat-value"><%= stats.inProgress %></div>
+        <div class="stat-label">En Proceso</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="stat-value"><%= stats.resolved %></div>
+        <div class="stat-label">Resueltas</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><i class="fas fa-clipboard-list"></i> Incidencias Recientes</h2>
+
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% reports.forEach(function(report) { %>
+            <tr>
+              <td><%= report.id %></td>
+              <td><%= report.title %></td>
+              <td><%= report.date %></td>
+              <td>
+                <% if (report.status === 'pending') { %>
+                  <span class="status-badge status-pending">Pendiente</span>
+                <% } else if (report.status === 'in-progress') { %>
+                  <span class="status-badge status-in-progress">En proceso</span>
+                <% } else { %>
+                  <span class="status-badge status-resolved">Resuelto</span>
+                <% } %>
+              </td>
+              <td>
+                <a href="#" class="btn btn-small">
+                  <i class="fas fa-eye"></i> Ver
+                </a>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+
+      <div class="action-buttons">
+        <a href="#" class="btn">
+          <i class="fas fa-list"></i> Ver todas las incidencias
+        </a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><i class="fas fa-chart-line"></i> Resumen de Actividad</h2>
+      
+      <div class="activity-summary">
+        <p>Últimas actualizaciones del sistema:</p>
+        <ul>
+          <% activities.forEach(function(activity) { %>
+            <li>
+              <strong><%= activity.date %></strong> - <%= activity.description %>
+            </li>
+          <% }); %>
+        </ul>
+      </div>
+      
+      <div class="action-buttons">
+        <a href="#" class="btn">
+          <i class="fas fa-history"></i> Ver historial completo
+        </a>
+      </div>
+    </div>
+</div>
