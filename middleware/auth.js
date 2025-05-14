@@ -6,12 +6,28 @@ function verificarJWT(req, res, next) {
   if (!token) return res.redirect('/login');
 
   try {
-    const decoded = jwt.verify(token, JWT_SECRET);
-    req.user = decoded;
+    const decoded = jwt.decode(token)
+    req.user = decoded.username;
     next();
   } catch (err) {
     return res.redirect('/login');
   }
 }
 
-module.exports = verificarJWT;
+function verificarAdminJWT(req, res, next) {
+  const token = req.cookies.token;
+  if (!token) return res.redirect('/login');
+
+  try {
+    const decoded = jwt.decode(token)
+    req.user = decoded.username;
+    if (decoded.role !== 'admin') {
+      return res.status(403).json({ error: 'Acceso denegado' });
+    }
+    next();
+  } catch (err) {
+    return res.redirect('/login');
+  }
+}
+
+module.exports = verificarJWT, verificarAdminJWT;
