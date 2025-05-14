@@ -41,6 +41,8 @@ router.get('/auth-test',(req, res) => {
 
   // Mostrar contenido del token ( no hace falta verificarlo aquí, ya que el middleware lo hace)
   // Continuar por aquí, ver la forma de hacer vulnerable el token
+  decoded = jwt.decode(token)
+  res.status(200).json({ message: 'Token válido', token: decoded });
 });
 
 module.exports = router;
