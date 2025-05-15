@@ -1,5 +1,4 @@
-sudo apt update
-sudo apt install -y \
+sudo apt update && sudo apt install -y \
   ca-certificates \
   fonts-liberation \
   libappindicator3-1 \
@@ -35,3 +34,6 @@ sudo apt install -y \
   lsb-release \
   xdg-utils \
   wget
+
+
+node -e "require('puppeteer').launch({headless: true}).then(browser => browser.close())"
